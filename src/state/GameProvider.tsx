@@ -49,7 +49,7 @@ import {
   type Settings,
 } from '../state/saveModel';
 
-export type Screen = 'boot' | 'start' | 'map' | 'play' | 'reward' | 'end' | 'parent';
+export type Screen = 'boot' | 'start' | 'level' | 'map' | 'play' | 'reward' | 'end' | 'parent';
 
 export interface RewardCard {
   id: string;
@@ -220,7 +220,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setProfileId(selected.id);
       setRun(null);
       setRewardCard(null);
-      setScreen('map');
+      setScreen('level');
       speak(`Halo ${selected.name}, ayo main!`);
     },
     [save.profiles],

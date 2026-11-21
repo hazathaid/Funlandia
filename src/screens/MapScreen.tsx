@@ -29,12 +29,12 @@ export function MapScreen() {
       <header className="map__header">
         <button
           type="button"
-          className="icon-btn map__switch-profile"
+          className="btn btn--ghost btn--small map__switch-profile"
           onClick={goToStart}
           aria-label="Kembali untuk ganti pengguna"
           title="Ganti pengguna"
         >
-          <span aria-hidden="true">←</span>
+          Ganti pengguna
         </button>
         <div className="profile-chip">
           <span aria-hidden="true">{AVATAR_EMOJI[profile?.avatarId ?? 'rubah'] ?? '🦊'}</span>

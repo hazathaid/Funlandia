@@ -2,6 +2,7 @@ import { Mascot } from './components/Mascot';
 import { MuteButton } from './components/MuteButton';
 import { EndScreen } from './screens/EndScreen';
 import { MapScreen } from './screens/MapScreen';
+import { LevelScreen } from './screens/LevelScreen';
 import { ParentZoneScreen } from './screens/ParentZoneScreen';
 import { PlayScreen } from './screens/PlayScreen';
 import { RewardScreen } from './screens/RewardScreen';
@@ -25,6 +26,7 @@ export function App() {
         </div>
       ) : null}
       {screen === 'start' ? <StartScreen /> : null}
+      {screen === 'level' ? <LevelScreen /> : null}
       {screen === 'map' ? <MapScreen /> : null}
       {screen === 'play' ? <PlayScreen /> : null}
       {screen === 'reward' ? <RewardScreen /> : null}
