@@ -7,7 +7,9 @@ import type {
   AdditionQuestion,
   CompareQuestion,
   CountingQuestion,
+  DivisionQuestion,
   GameQuestion,
+  MultiplicationQuestion,
   SubtractionQuestion,
 } from '../game/questions';
 import type { RunState } from '../game/session';
@@ -36,6 +38,8 @@ function tappableCountFor(question: GameQuestion): number {
     case 'subtraction':
       return question.answer;
     case 'compare':
+    case 'multiplication':
+    case 'division':
       return 0;
   }
 }
@@ -83,6 +87,12 @@ function PlayBoard({ run, question }: { run: RunState; question: GameQuestion })
       countTimers.current.push(
         window.setTimeout(() => setCompareGlow(null), 250 + COUNT_ALONG_STEP_MS * 4),
       );
+      return;
+    }
+
+    if (question.kind === 'multiplication' || question.kind === 'division') {
+      const operator = question.kind === 'multiplication' ? 'kali' : 'dibagi';
+      speak(`${numberToWord(question.a)} ${operator} ${numberToWord(question.b)} sama dengan ${numberToWord(question.answer)}.`);
       return;
     }
 
@@ -142,6 +152,8 @@ function PlayBoard({ run, question }: { run: RunState; question: GameQuestion })
   const promptHint =
     question.kind === 'compare'
       ? 'Ketuk keranjang yang lebih banyak.'
+      : question.kind === 'multiplication' || question.kind === 'division'
+        ? 'Pilih jawaban yang tepat, ya.'
       : countedAll
         ? 'Sekarang pilih jumlahnya, ya.'
         : 'Ketuk buahnya satu-satu.';
@@ -296,6 +308,10 @@ function renderPrompt(question: GameQuestion, fruitLabel: string) {
       );
     case 'compare':
       return <>Mana yang lebih banyak?</>;
+    case 'multiplication':
+      return <><strong>{question.a}</strong> × <strong>{question.b}</strong> = ?</>;
+    case 'division':
+      return <><strong>{question.a}</strong> ÷ <strong>{question.b}</strong> = ?</>;
     case 'counting':
     default:
       return (
@@ -341,7 +357,7 @@ function FruitTile({ fruit, index, tapOrder, autoCounted, eaten, solved, label, 
 }
 
 interface FruitBoardProps {
-  question: CountingQuestion | AdditionQuestion | SubtractionQuestion;
+  question: CountingQuestion | AdditionQuestion | SubtractionQuestion | MultiplicationQuestion | DivisionQuestion;
   tapped: number[];
   countingIndex: number;
   solved: boolean;
@@ -383,6 +399,20 @@ function FruitBoard({ question, tapped, countingIndex, solved, fruitLabel, onTap
         </span>
         <div className="equation__group">
           {Array.from({ length: question.b }, (_, index) => tile(question.a + index))}
+        </div>
+      </section>
+    );
+  }
+
+  if (question.kind === 'multiplication' || question.kind === 'division') {
+    const operator = question.kind === 'multiplication' ? '×' : '÷';
+    return (
+      <section className="equation" aria-label={`${question.a} ${operator} ${question.b}`}>
+        <div className="equation__group equation__group--wide">
+          <strong>{question.a}</strong>
+          <span className="equation__op" aria-hidden="true">{operator}</span>
+          <strong>{question.b}</strong>
+          <span className="equation__op" aria-hidden="true">= ?</span>
         </div>
       </section>
     );

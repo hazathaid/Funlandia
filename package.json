@@ -8,6 +8,8 @@
     "dev": "vite",
     "predev": "node scripts/generate-icons.mjs",
     "build": "tsc --noEmit && vite build",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:debug": "npm run android:sync && cd android && ./gradlew assembleDebug",
     "prebuild": "node scripts/generate-icons.mjs",
     "preview": "vite preview",
     "test": "vitest run",

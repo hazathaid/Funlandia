@@ -10,6 +10,8 @@ const MODE_ICON: Record<ChapterMode, string> = {
   addition: '➕',
   subtraction: '➖',
   compare: '⚖️',
+  multiplication: '✖️',
+  division: '➗',
 };
 
 /**

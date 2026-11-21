@@ -52,6 +52,8 @@ export default defineConfig({
   // Di Capacitor (F5) webView tetap menyajikan app dari https://localhost/.
   base: '/',
   build: {
+    // Folder ini dibaca Capacitor ketika menyalin web app ke APK Android.
+    outDir: 'www',
     target: 'es2019',
     assetsInlineLimit: 4096,
   },

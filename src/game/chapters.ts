@@ -77,6 +77,28 @@ export const ISLAND: Island = {
       cardName: 'Rusa',
       requires: 'pulau-buah-bab-3',
     }),
+    makeChapter({
+      id: 'pulau-buah-bab-5',
+      islandId: 'pulau-buah',
+      title: 'Kali Buah',
+      subtitle: '10 soal perkalian mudah',
+      mode: 'multiplication',
+      size: 10,
+      cardId: 'lebah',
+      cardName: 'Lebah',
+      requires: 'pulau-buah-bab-4',
+    }),
+    makeChapter({
+      id: 'pulau-buah-bab-6',
+      islandId: 'pulau-buah',
+      title: 'Bagi Buah',
+      subtitle: '10 soal pembagian mudah',
+      mode: 'division',
+      size: 10,
+      cardId: 'monyet',
+      cardName: 'Monyet',
+      requires: 'pulau-buah-bab-5',
+    }),
   ],
 };
 
@@ -102,6 +124,8 @@ export const CARD_NAMES: Record<string, string> = {
   kancil: 'Kancil',
   burung: 'Burung Hantu',
   rusa: 'Rusa',
+  lebah: 'Lebah',
+  monyet: 'Monyet',
 };
 
 export const CARD_EMOJI: Record<string, string> = {
@@ -109,4 +133,6 @@ export const CARD_EMOJI: Record<string, string> = {
   kancil: '🦌',
   burung: '🦉',
   rusa: '🦌',
+  lebah: '🐝',
+  monyet: '🐒',
 };

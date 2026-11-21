@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import {
   ADDITION_SKILL_ID,
   COMPARE_SKILL_ID,
+  DIVISION_SKILL_ID,
+  MULTIPLICATION_SKILL_ID,
   SUBTRACTION_SKILL_ID,
   difficultyFromMastery,
   generateQuestions,
@@ -92,6 +94,31 @@ describe('generator soal F2', () => {
       expect(question.answer).toBe(question.count);
       validOptions(question.answer, question.options);
     }
+  });
+
+  it('perkalian: produk benar, pilihan valid, dan deterministik', () => {
+    const chapter = generateQuestions({ mode: 'multiplication', seed: 'seed-mul', size: 10 });
+    expect(chapter).toHaveLength(10);
+    for (const question of chapter) {
+      if (question.kind !== 'multiplication') continue;
+      expect(question.skillId).toBe(MULTIPLICATION_SKILL_ID);
+      expect(question.answer).toBe(question.a * question.b);
+      validOptions(question.answer, question.options, 100);
+    }
+    expect(generateQuestions({ mode: 'multiplication', seed: 'seed-mul', size: 10 })).toEqual(chapter);
+  });
+
+  it('pembagian: selalu habis dibagi, pilihan valid, dan deterministik', () => {
+    const chapter = generateQuestions({ mode: 'division', seed: 'seed-div', size: 10 });
+    expect(chapter).toHaveLength(10);
+    for (const question of chapter) {
+      if (question.kind !== 'division') continue;
+      expect(question.skillId).toBe(DIVISION_SKILL_ID);
+      expect(question.a % question.b).toBe(0);
+      expect(question.answer).toBe(question.a / question.b);
+      validOptions(question.answer, question.options);
+    }
+    expect(generateQuestions({ mode: 'division', seed: 'seed-div', size: 10 })).toEqual(chapter);
   });
 
   it('difficulty berbeda menghasilkan tingkat kesulitan berbeda', () => {

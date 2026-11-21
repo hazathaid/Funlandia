@@ -13,6 +13,7 @@ import { findChapter, isChapterUnlocked } from '../game/chapters';
 import {
   difficultyFromMastery,
   generateQuestions,
+  type CountingQuestion,
   type GameQuestion,
 } from '../game/questions';
 import {
@@ -109,9 +110,15 @@ function speakInstruction(question: GameQuestion): void {
     case 'compare':
       speak('Mana yang lebih banyak? Keranjang kiri atau keranjang kanan?');
       break;
+    case 'multiplication':
+      speak(`${numberToWord(question.a)} kali ${numberToWord(question.b)}. Berapa hasilnya?`);
+      break;
+    case 'division':
+      speak(`${numberToWord(question.a)} dibagi ${numberToWord(question.b)}. Berapa hasilnya?`);
+      break;
     case 'counting':
     default:
-      speakQuestion({ fruitLabel, count: question.count });
+      speakQuestion({ fruitLabel, count: (question as CountingQuestion).count });
       break;
   }
 }
