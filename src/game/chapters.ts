@@ -1,4 +1,4 @@
-import { SKILL_FOR_MODE, type ChapterMode } from './questions';
+import { SKILL_FOR_MODE, type ChapterMode, type Difficulty } from './questions';
 
 /**
  * Definisi bab untuk vertical slice F1 + konten inti F2.
@@ -14,6 +14,9 @@ export interface Chapter {
   size: number;
   cardId: string;
   cardName: string;
+  /** Level yang terlihat oleh anak; makin tinggi, soal minimumnya makin menantang. */
+  level: number;
+  difficultyFloor: Difficulty;
   /** Id bab yang harus selesai lebih dulu. Bab pertama tidak punya syarat. */
   requires?: string;
 }
@@ -43,6 +46,8 @@ export const ISLAND: Island = {
       size: 10,
       cardId: 'kiko',
       cardName: 'Kiko si Rubah',
+      level: 1,
+      difficultyFloor: 0,
     }),
     makeChapter({
       id: 'pulau-buah-bab-2',
@@ -53,6 +58,8 @@ export const ISLAND: Island = {
       size: 10,
       cardId: 'kancil',
       cardName: 'Kancil',
+      level: 2,
+      difficultyFloor: 0,
       requires: CHAPTER_HITUNG_BUAH_ID,
     }),
     makeChapter({
@@ -64,6 +71,8 @@ export const ISLAND: Island = {
       size: 10,
       cardId: 'burung',
       cardName: 'Burung Hantu',
+      level: 3,
+      difficultyFloor: 1,
       requires: 'pulau-buah-bab-2',
     }),
     makeChapter({
@@ -75,6 +84,8 @@ export const ISLAND: Island = {
       size: 10,
       cardId: 'rusa',
       cardName: 'Rusa',
+      level: 4,
+      difficultyFloor: 1,
       requires: 'pulau-buah-bab-3',
     }),
     makeChapter({
@@ -86,6 +97,8 @@ export const ISLAND: Island = {
       size: 10,
       cardId: 'lebah',
       cardName: 'Lebah',
+      level: 5,
+      difficultyFloor: 2,
       requires: 'pulau-buah-bab-4',
     }),
     makeChapter({
@@ -97,6 +110,8 @@ export const ISLAND: Island = {
       size: 10,
       cardId: 'monyet',
       cardName: 'Monyet',
+      level: 6,
+      difficultyFloor: 2,
       requires: 'pulau-buah-bab-5',
     }),
   ],

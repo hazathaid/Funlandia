@@ -85,7 +85,7 @@ export function MapScreen() {
                         ? 'Selesaikan bab sebelumnya dulu'
                         : isDone
                           ? 'Selesai — main lagi'
-                          : chapter.subtitle}
+                          : `Level ${chapter.level} · ${chapter.subtitle}`}
                     </span>
                   </span>
                   {isDone ? (

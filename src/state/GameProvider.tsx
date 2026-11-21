@@ -14,6 +14,7 @@ import {
   difficultyFromMastery,
   generateQuestions,
   type CountingQuestion,
+  type Difficulty,
   type GameQuestion,
 } from '../game/questions';
 import {
@@ -257,7 +258,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
         chapterId,
         seed: makeSeed(chapterId, now),
         size: selectedChapter.size,
-        difficulty: difficultyFromMastery(existingSkill?.mastery ?? 0),
+        // Level baru tidak turun lagi ke soal paling mudah; penguasaan anak tetap
+        // dapat menaikkan kesulitan di atas minimum level tersebut.
+        difficulty: Math.max(
+          selectedChapter.difficultyFloor,
+          difficultyFromMastery(existingSkill?.mastery ?? 0),
+        ) as Difficulty,
         now,
       });
 
