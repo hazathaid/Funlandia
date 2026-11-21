@@ -14,12 +14,16 @@ npm install
 npm run dev            # Vite dev server
 npm test               # Vitest: logika game + port platform
 npm run build          # generate ikon + tsc --noEmit + vite build (service worker ikut dibuat)
+npm run android:sync   # build web + salin aset ke proyek Android Capacitor
+npm run android:debug  # hasilkan APK debug (memerlukan JDK 21)
 npm run preview        # cek hasil build produksi
 npm run lint           # ESLint 9 (flat config)
 npm run audit:offline  # gate: gagal kalau ada URL/CDN/fetch eksternal
 npm run audit:contrast # gate: semua pasangan warna ≥ 4.5:1
 npm run verify         # lint + audit + test + build (persis yang dijalankan CI)
 ```
+
+Setelah berhasil, APK debug tersedia di `android/app/build/outputs/apk/debug/app-debug.apk`.
 
 Tidak ada network request saat runtime: font **Baloo 2** dan **Nunito** di-self-host lewat `@fontsource`
 (di-bundle Vite, tanpa Google Fonts), ilustrasi berupa SVG inline, SFX disintesis lewat Web Audio, ikon
