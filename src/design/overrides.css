@@ -1,0 +1,83 @@
+/*
+ * Override tipis di atas src/styles.css.
+ * Dimuat PALING AKHIR supaya bisa memperbaiki dua hal tanpa menyentuh layar F1/F2:
+ *   1. Tipografi self-hosted (Baloo 2 untuk judul/angka, Nunito untuk teks).
+ *   2. Kontras teks yang sebelumnya < 4.5:1 (dijaga `npm run audit:contrast`).
+ */
+
+/* ── 1. Tipografi self-hosted ──────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+.section-title,
+.start__title,
+.map__title,
+.map__subtitle strong,
+.prompt__text,
+.equation__op,
+.btn,
+.option__number,
+.basket__count,
+.fruit__badge,
+.report__value,
+.reward__title,
+.end__title,
+.chapter-node__title,
+.profile-chip,
+.star-chip {
+  font-family: var(--font-display);
+  font-feature-settings: 'ss01' 1;
+}
+
+/* ── 2. Kontras teks >= 4.5:1 ──────────────────────────────────────────── */
+:root {
+  /* #6b6f8a hanya 4.27:1 di atas --surface-muted; varian ini 5.3:1. */
+  --muted: var(--muted-strong);
+}
+
+/* Pink dasar 3.6:1 untuk teks → pakai varian kuat (6.1:1). */
+.prompt__text strong,
+.equation__op,
+.fruit__eaten-mark {
+  color: var(--accent-strong);
+}
+
+/* Putih di atas pink dasar cuma 3.6:1. */
+.reward__ribbon {
+  background: var(--accent-strong);
+  color: var(--on-accent);
+}
+
+/* Putih di atas biru dasar cuma 4.0:1. */
+.fruit__badge {
+  background: var(--info-strong);
+  color: var(--on-info);
+}
+
+/* Hijau umpan balik 3.8:1 di atas krem. */
+.feedback--correct {
+  color: var(--success);
+}
+
+/* Abu-abu terkunci 2.9:1 di atas --surface-muted. */
+.chapter-node--locked {
+  color: var(--muted);
+}
+
+/* Teks kesalahan/peringatan: satukan ke satu token. */
+.feedback--wrong,
+.btn--danger,
+.parent__message--error,
+.parent-gate__error,
+.skill-row__flag {
+  color: var(--danger);
+}
+
+.btn--danger {
+  background: var(--danger-soft);
+  border-color: var(--accent-strong);
+}

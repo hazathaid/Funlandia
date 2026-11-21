@@ -1,0 +1,54 @@
+# ============================================================
+# SECRETS — JANGAN PERNAH DI-COMMIT
+# Keystore hilang / ke-commit = tidak bisa update APK selamanya.
+# Template yang aman di-commit: android/keystore.properties.example
+# ============================================================
+*.jks
+*.keystore
+keystore.properties
+android/keystore.properties
+**/keystore.properties
+
+# ============================================================
+# Android / Gradle
+# ============================================================
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/capacitor-cordova-android-plugins/build/
+.gradle/
+build/
+
+# ============================================================
+# Node / Vite
+# ============================================================
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+
+# Ikon placeholder di-generate oleh scripts/generate-icons.mjs
+# (otomatis jalan lewat predev/prebuild), jadi tidak perlu di-commit.
+public/icons/
+
+# ============================================================
+# Env & editor / OS
+# ============================================================
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ============================================================
+# Log & test output
+# ============================================================
+*.log
+npm-debug.log*
+coverage/
+playwright-report/
+test-results/

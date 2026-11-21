@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design token — sumber tunggal skala desain (plan §6).
+ * Dimuat SEBELUM src/styles.css, jadi utility Tailwind berada di bawah kelas
+ * komponen yang sudah diuji ke anak (preflight juga dimatikan di tailwind.config.js).
+ * Warna di sini dicerminkan di tailwind.config.js.
+ *
+ * Aturan kontras: SEMUA pasangan teks/latar wajib >= 4.5:1.
+ * Dijaga otomatis oleh `npm run audit:contrast` (scripts/check-contrast.mjs),
+ * yang membaca file ini + styles.css + overrides.css.
+ */
+:root {
+  /* ── Palet dasar (dibekukan: dipakai ilustrasi, ikon, dan APK) ─────────── */
+  --krem: #fff8e7;
+  --madu: #ffb703;
+  --mint: #06d6a0;
+  --pink: #ef476f;
+  --biru: #118ab2;
+  --navy: #2b2d42;
+
+  /* ── Alias semantik untuk komponen ─────────────────────────────────────── */
+  --bg: var(--krem);
+  --text: var(--navy);
+  --primary: var(--madu);
+  --secondary: var(--mint);
+  --accent: var(--pink);
+  --info: var(--biru);
+
+  --card: #ffffff;
+  --surface-sunken: #fffdf6;
+  --surface-muted: #f1efe6;
+  --line: #d8d4c4;
+  --line-soft: #e3dfd0;
+
+  --primary-soft: #fff3d6;
+  --secondary-soft: #e9fbf4;
+  --info-soft: #e7f6fb;
+  --danger-soft: #ffeaf0;
+
+  /* ── Warna "kuat": dipakai kalau teks putih / teks kecil di atas warna ───
+   * Palet dasar pink/biru tidak lolos 4.5:1 untuk teks (3.6:1 dan 4.0:1),
+   * jadi teks memakai varian gelap ini, bukan palet dasar. */
+  --on-accent: #ffffff;
+  --on-info: #ffffff;
+  --accent-strong: #c1123f;
+  --info-strong: #0e6e8f;
+  --success: #0b7a5c;
+  --danger: #b03a5b;
+  --muted-strong: #5c6079;
+
+  /* ── Radius (tombol & kartu besar, target jari anak) ───────────────────── */
+  --radius-xs: 12px;
+  --radius-sm: 16px;
+  --radius-md: 18px;
+  --radius: 24px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+
+  /* ── Skala spacing 4px ─────────────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Target tap minimum dipegang sama di CSS & di plan §6. */
+  --tap-min: 64px;
+
+  /* ── Kontras tinggi ──────────────────────────────────────────────────────
+  --contrast-enabled: false;
+  --on-accent: #ffffff;
+  --on-info: #ffffff;
+  --accent-strong: #c1123f;
+  --info-strong: #0e6e8f;
+  --success: #0b7a5c;
+  --danger: #b03a5b;
+  --muted-strong: #5c6079;
+
+  /* ── Tipografi (font di-self-host via @fontsource — tanpa Google Fonts) ── */
+  --font-display: 'Baloo 2', 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Nunito', 'Baloo 2', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-body: 18px;
+  --font-size-label: 16px;
+  --font-size-title: 22px;
+  --font-size-hero: clamp(28px, 6vw, 44px);
+  --font-size-number: clamp(38px, 8vw, 60px);
+  --font-size-scale: 1; /* 1 = normal, 1.25 = 25% larger, 1.5 = 50% larger */
+  --shadow-card: 0 6px 0 rgba(43, 45, 66, 0.12);
+  --shadow-lift: 0 12px 0 rgba(43, 45, 66, 0.12);
+}

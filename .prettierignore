@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+public/icons
+android
+package-lock.json
+*.jks
+*.keystore

@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: Lint + audit offline + kontras + test + build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # Gate offline-first: gagal kalau ada URL/CDN/fetch eksternal di source.
+      - name: Audit offline (source)
+        run: npm run audit:offline
+
+      # Gate aksesibilitas: semua pasangan warna teks/latar >= 4.5:1.
+      - name: Audit kontras
+        run: npm run audit:contrast
+
+      - name: Test
+        run: npm test
+
+      - name: Build (tsc --noEmit + vite build)
+        run: npm run build
+
+      # Audit ulang SETELAH build supaya dist/ (bundle produksi + service worker)
+      # ikut diperiksa: tidak boleh ada satu pun referensi ke domain luar.
+      - name: Audit offline (source + dist)
+        run: npm run audit:offline
+
+      - name: Simpan artefak dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
