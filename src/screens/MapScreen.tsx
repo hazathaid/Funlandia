@@ -19,7 +19,7 @@ const MODE_ICON: Record<ChapterMode, string> = {
  * tanpa tombol "main terus" yang menggoda).
  */
 export function MapScreen() {
-  const { profile, save, startChapter, finishToEnd } = useGame();
+  const { profile, save, startChapter, finishToEnd, goToStart } = useGame();
   const completed = save.completedChapters;
   const minutesToday = minutesUsedToday(save, Date.now());
   const restSuggested = minutesToday >= save.settings.dailyLimitMin;
@@ -27,6 +27,15 @@ export function MapScreen() {
   return (
     <main className="screen map">
       <header className="map__header">
+        <button
+          type="button"
+          className="icon-btn map__switch-profile"
+          onClick={goToStart}
+          aria-label="Kembali untuk ganti pengguna"
+          title="Ganti pengguna"
+        >
+          <span aria-hidden="true">←</span>
+        </button>
         <div className="profile-chip">
           <span aria-hidden="true">{AVATAR_EMOJI[profile?.avatarId ?? 'rubah'] ?? '🦊'}</span>
           <span>{profile?.name ?? 'Anak'}</span>
@@ -79,13 +88,15 @@ export function MapScreen() {
                     {locked ? '🔒' : isDone ? '⭐' : MODE_ICON[chapter.mode]}
                   </span>
                   <span className="chapter-node__text">
-                    <span className="chapter-node__title">{chapter.title}</span>
+                    <span className="chapter-node__title">
+                      Level {chapter.level} · {chapter.title}
+                    </span>
                     <span className="chapter-node__sub">
                       {locked
                         ? 'Selesaikan bab sebelumnya dulu'
                         : isDone
                           ? 'Selesai — main lagi'
-                          : `Level ${chapter.level} · ${chapter.subtitle}`}
+                          : chapter.subtitle}
                     </span>
                   </span>
                   {isDone ? (

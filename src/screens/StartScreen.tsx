@@ -136,7 +136,7 @@ export function StartScreen() {
 
       <div className="start__footer">
         <p className="start__footnote">
-          Main 1 bab sehari sudah cukup. Tidak ada iklan, tidak ada internet.
+          Setiap bab adalah petualangan baru. Yuk, lihat tantangan Kiko berikutnya!
         </p>
         <button
           type="button"

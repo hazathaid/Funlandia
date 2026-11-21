@@ -364,6 +364,12 @@ p {
   padding-right: 76px;
 }
 
+.map__switch-profile {
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+}
+
 .profile-chip,
 .star-chip {
   display: inline-flex;
