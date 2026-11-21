@@ -10,7 +10,16 @@ import {
 function makeSave() {
   const save = createSaveFile('0.1.0');
   save.profiles = [
-    { id: 'p1', name: 'Aira', avatarId: 'rubah', ageGroup: '5-6', createdAt: 1000 },
+    {
+      id: 'p1',
+      name: 'Aira',
+      avatarId: 'rubah',
+      ageGroup: '5-6',
+      createdAt: 1000,
+      difficulty: 1,
+      completedChapters: ['pulau-buah-bab-1'],
+      collection: ['kiko'],
+    },
   ];
   save.collection = ['kiko'];
   save.completedChapters = ['pulau-buah-bab-1'];

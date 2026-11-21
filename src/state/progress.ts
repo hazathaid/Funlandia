@@ -72,11 +72,37 @@ export function applySessionOutcome(save: SaveFile, outcome: SessionOutcome): Sa
     mergeSkillProgress(skillId, existingSkill, run, endedAt),
   ];
 
+  const profile = save.profiles.find((item) => item.id === run.profileId);
+  const profileCollection = profile?.collection ?? [];
+  const profileCompleted = profile?.completedChapters ?? [];
+
   const gainedCard =
-    completedNaturally && outcome.cardId && !save.collection.includes(outcome.cardId)
+    completedNaturally && outcome.cardId && !profileCollection.includes(outcome.cardId)
       ? outcome.cardId
       : null;
 
+  const completedForProfile =
+    completedNaturally && !profileCompleted.includes(run.chapterId)
+      ? [...profileCompleted, run.chapterId]
+      : profileCompleted;
+
+  const profiles = profile
+    ? save.profiles.map((item) =>
+        item.id === run.profileId
+          ? {
+              ...item,
+              collection: gainedCard
+                ? [...profileCollection, gainedCard]
+                : profileCollection,
+              completedChapters: completedForProfile,
+            }
+          : item,
+      )
+    : save.profiles;
+
+  const collection = gainedCard && !save.collection.includes(gainedCard)
+    ? [...save.collection, gainedCard]
+    : save.collection;
   const completedChapters =
     completedNaturally && !save.completedChapters.includes(run.chapterId)
       ? [...save.completedChapters, run.chapterId]
@@ -87,9 +113,10 @@ export function applySessionOutcome(save: SaveFile, outcome: SessionOutcome): Sa
 
   return {
     ...save,
+    profiles,
     sessions: upsertSession(save.sessions, session),
     skillProgress: { ...save.skillProgress, [run.profileId]: nextSkills },
-    collection: gainedCard ? [...save.collection, gainedCard] : save.collection,
+    collection,
     completedChapters,
     dailyUsage: { ...save.dailyUsage, [usageKey]: (save.dailyUsage[usageKey] ?? 0) + seconds },
     activeRun: outcome.activeRun,

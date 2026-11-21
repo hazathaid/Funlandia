@@ -1,10 +1,16 @@
 import { Mascot } from '../components/Mascot';
-import { ISLAND, isChapterUnlocked } from '../game/chapters';
 import { useGame } from '../state/GameProvider';
 
-/** Langkah singkat setelah memilih profil: anak melihat progres level sebelum peta. */
+const LEVELS = [
+  { difficulty: 0 as const, title: 'Easy', emoji: '🌱', subtitle: 'Mulai perlahan, angka kecil' },
+  { difficulty: 1 as const, title: 'Medium', emoji: '🌟', subtitle: 'Tantangan sedikit lebih seru' },
+  { difficulty: 2 as const, title: 'Hard', emoji: '🚀', subtitle: 'Untuk anak yang siap tantangan' },
+];
+
+/** Pilih tingkat kesulitan setelah memilih atau membuat profil, sebelum masuk peta. */
 export function LevelScreen() {
-  const { save, goToMap, goToStart } = useGame();
+  const { profile, selectDifficulty, goToMap, goToStart } = useGame();
+  const selected = profile?.difficulty ?? 0;
 
   return (
     <main className="screen level-select">
@@ -20,22 +26,23 @@ export function LevelScreen() {
 
       <Mascot mood="happy" className="level-select__mascot" />
 
-      <ol className="level-select__list" aria-label="Daftar level">
-        {ISLAND.chapters.map((chapter) => {
-          const done = save.completedChapters.includes(chapter.id);
-          const unlocked = isChapterUnlocked(chapter, save.completedChapters);
-          return (
-            <li key={chapter.id} className={`level-card ${done ? 'level-card--done' : ''}`}>
-              <span className="level-card__number" aria-hidden="true">{chapter.level}</span>
-              <span>
-                <strong>Level {chapter.level}: {chapter.title}</strong>
-                <small>{done ? 'Sudah selesai' : unlocked ? 'Siap dimainkan' : 'Masih terkunci'}</small>
-              </span>
-              <span aria-hidden="true">{done ? '⭐' : unlocked ? '✨' : '🔒'}</span>
-            </li>
-          );
-        })}
-      </ol>
+      <div className="level-select__list" role="group" aria-label="Pilih level">
+        {LEVELS.map((level) => (
+          <button
+            type="button"
+            key={level.title}
+            className={`level-card ${selected === level.difficulty ? 'level-card--selected' : ''}`}
+            aria-pressed={selected === level.difficulty}
+            onClick={() => selectDifficulty(level.difficulty)}
+          >
+            <span className="level-card__number" aria-hidden="true">{level.emoji}</span>
+            <span>
+              <strong>{level.title}</strong>
+              <small>{level.subtitle}</small>
+            </span>
+          </button>
+        ))}
+      </div>
 
       <button type="button" className="btn btn--primary btn--wide" onClick={goToMap}>
         Masuk Peta Pulau

@@ -94,6 +94,37 @@ describe('menyimpan hasil sesi', () => {
     expect(next.collection).toEqual([]);
   });
 
+  it('profil baru tidak mewarisi bab atau kartu profil lain', () => {
+    const save = createSaveFile('0.1.0');
+    save.profiles = [
+      {
+        id: 'p1',
+        name: 'Aira',
+        avatarId: 'rubah',
+        ageGroup: '5-6',
+        createdAt: 1000,
+        difficulty: 1,
+        completedChapters: ['pulau-buah-bab-1'],
+        collection: ['kiko'],
+      },
+      {
+        id: 'p2',
+        name: 'Bima',
+        avatarId: 'panda',
+        ageGroup: '5-6',
+        createdAt: 2000,
+        difficulty: 0,
+        completedChapters: [],
+        collection: [],
+      },
+    ];
+    save.completedChapters = ['pulau-buah-bab-1'];
+    save.collection = ['kiko'];
+
+    expect(save.profiles[1]?.completedChapters).toEqual([]);
+    expect(save.profiles[1]?.collection).toEqual([]);
+  });
+
   it('migrasi save mempertahankan progres bab & status sesi', () => {
     const migrated = migrate(
       {
@@ -122,6 +153,9 @@ describe('menyimpan hasil sesi', () => {
     expect(migrated.profiles).toHaveLength(1);
     expect(migrated.completedChapters).toEqual(['pulau-buah-bab-1']);
     expect(migrated.collection).toEqual(['kiko']);
+    expect(migrated.profiles[0]?.completedChapters).toEqual(['pulau-buah-bab-1']);
+    expect(migrated.profiles[0]?.collection).toEqual(['kiko']);
+    expect(migrated.profiles[0]?.difficulty).toBe(0);
     expect(migrated.sessions[0]?.completedNaturally).toBe(true);
     expect(migrated.settings.sfxOn).toBe(false); // preferensi mute ikut tersimpan
     expect(migrated.activeRun).toBeNull();

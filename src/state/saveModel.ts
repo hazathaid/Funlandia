@@ -12,6 +12,9 @@ export interface Profile {
   avatarId: string;
   ageGroup: '5-6' | '7-8';
   createdAt: number;
+  difficulty?: 0 | 1 | 2;
+  completedChapters?: string[];
+  collection?: string[];
 }
 
 export interface SkillProgress {
@@ -119,6 +122,13 @@ function normalizeProfile(value: unknown): Profile | null {
     avatarId: asString(value.avatarId, 'rubah'),
     ageGroup: asAgeGroup(value.ageGroup),
     createdAt: asNumber(value.createdAt, Date.now()),
+    difficulty: value.difficulty === 1 ? 1 : value.difficulty === 2 ? 2 : 0,
+    completedChapters: asArray(value.completedChapters).filter(
+      (item): item is string => typeof item === 'string',
+    ),
+    collection: asArray(value.collection).filter(
+      (item): item is string => typeof item === 'string',
+    ),
   };
 }
 
@@ -199,6 +209,22 @@ export function migrate(raw: unknown, appVersion: string): SaveFile {
     new Set(asArray(raw.completedChapters).filter((id): id is string => typeof id === 'string')),
   );
 
+  // Migrasi data lama: progres global hanya diberikan kepada profil pertama.
+  // Profil lama tanpa field per-profil tidak boleh membuat profil baru
+  // langsung mewarisi bab atau kartu yang sudah dikerjakan profil lain.
+  const scopedProfiles = profiles.map((profile, index) => ({
+    ...profile,
+    difficulty: profile.difficulty ?? 0,
+    completedChapters:
+      profile.completedChapters?.length || index > 0
+        ? (profile.completedChapters ?? [])
+        : completedChapters,
+    collection:
+      profile.collection?.length || index > 0
+        ? (profile.collection ?? [])
+        : collection,
+  }));
+
   const dailyUsage: Record<string, number> = {};
   if (isRecord(raw.dailyUsage)) {
     for (const [date, seconds] of Object.entries(raw.dailyUsage)) {
@@ -215,7 +241,7 @@ export function migrate(raw: unknown, appVersion: string): SaveFile {
     ...base,
     schemaVersion: SCHEMA_VERSION,
     appVersion,
-    profiles,
+    profiles: scopedProfiles,
     skillProgress,
     collection,
     completedChapters,
@@ -245,8 +271,24 @@ export function addProfile(
     avatarId: input.avatarId || AVATARS[0],
     ageGroup: input.ageGroup,
     createdAt: input.now,
+    difficulty: 0,
+    completedChapters: [],
+    collection: [],
   };
   return { ...save, profiles: [...save.profiles, profile] };
+}
+
+export function setProfileDifficulty(
+  save: SaveFile,
+  profileId: string,
+  difficulty: 0 | 1 | 2,
+): SaveFile {
+  return {
+    ...save,
+    profiles: save.profiles.map((profile) =>
+      profile.id === profileId ? { ...profile, difficulty } : profile,
+    ),
+  };
 }
 
 /** Ubah sebagian setting tanpa menyentuh progres anak. */

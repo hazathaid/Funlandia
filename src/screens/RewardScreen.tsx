@@ -8,12 +8,12 @@ import { useGame } from '../state/GameProvider';
  * Hanya satu tombol utama "Selesai" → langsung ke layar penutup.
  */
 export function RewardScreen() {
-  const { rewardCard, run, save, finishToEnd } = useGame();
+  const { rewardCard, run, profile, finishToEnd } = useGame();
 
   const totalQuestions = run ? Math.max(1, run.queue.length) : 1;
   const attempts = run?.attempts ?? totalQuestions;
   const stars = attempts <= totalQuestions ? 3 : attempts <= totalQuestions + Math.ceil(totalQuestions / 2) ? 2 : 1;
-  const isNew = rewardCard ? save.collection.includes(rewardCard.id) : false;
+  const isNew = rewardCard ? (profile?.collection ?? []).includes(rewardCard.id) : false;
 
   return (
     <main className="screen reward">

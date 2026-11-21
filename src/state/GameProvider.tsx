@@ -44,6 +44,7 @@ import {
   createSaveFile,
   parseImportedSave,
   resetProgressInSave,
+  setProfileDifficulty,
   type Profile,
   type SaveFile,
   type Settings,
@@ -69,6 +70,7 @@ interface GameContextValue {
   audioOn: boolean;
   createProfile: (input: { name: string; avatarId: string; ageGroup: Profile['ageGroup'] }) => void;
   selectProfile: (profileId: string) => void;
+  selectDifficulty: (difficulty: Difficulty) => void;
   startChapter: (chapterId: string) => void;
   tapObject: (index: number) => void;
   resetTaps: () => void;
@@ -235,18 +237,27 @@ export function GameProvider({ children }: { children: ReactNode }) {
       if (created) {
         setProfileId(created.id);
         setRun(null);
-        setScreen('map');
+        setScreen('level');
         speak(`Halo ${created.name}, ayo main!`);
       }
     },
     [save, commitSave],
   );
 
+  const selectDifficulty = useCallback(
+    (difficulty: Difficulty) => {
+      if (!profileId) return;
+      commitSave((previous) => setProfileDifficulty(previous, profileId, difficulty));
+    },
+    [profileId, commitSave],
+  );
+
   const startChapter = useCallback(
     (chapterId: string) => {
       const selectedChapter = findChapter(chapterId);
       if (!selectedChapter || !profile) return;
-      if (!isChapterUnlocked(selectedChapter, save.completedChapters)) return;
+      const completedForProfile = profile.completedChapters ?? [];
+      if (!isChapterUnlocked(selectedChapter, completedForProfile)) return;
 
       const now = Date.now();
       const existingSkill = save.skillProgress[profile.id]?.find(
@@ -258,11 +269,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
         chapterId,
         seed: makeSeed(chapterId, now),
         size: selectedChapter.size,
-        // Level baru tidak turun lagi ke soal paling mudah; penguasaan anak tetap
-        // dapat menaikkan kesulitan di atas minimum level tersebut.
+        // Level yang dipilih menjadi batas kesulitan awal bab.
         difficulty: Math.max(
           selectedChapter.difficultyFloor,
-          difficultyFromMastery(existingSkill?.mastery ?? 0),
+          profile.difficulty ?? difficultyFromMastery(existingSkill?.mastery ?? 0),
         ) as Difficulty,
         now,
       });
@@ -273,7 +283,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setScreen('play');
       commitSave((previous) => ({ ...previous, activeRun: toActiveRun(nextRun) }));
     },
-    [profile, save.completedChapters, save.skillProgress, commitSave, resetTaps],
+    [profile, save.skillProgress, commitSave, resetTaps],
   );
 
   /** Tap objek satu per satu: suara angka mengikuti jumlah ketukan (satu, dua, tiga, ...). */
@@ -472,6 +482,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     audioOn: save.settings.sfxOn,
     createProfile,
     selectProfile,
+    selectDifficulty,
     startChapter,
     tapObject,
     resetTaps,

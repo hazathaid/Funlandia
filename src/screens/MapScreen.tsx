@@ -20,7 +20,8 @@ const MODE_ICON: Record<ChapterMode, string> = {
  */
 export function MapScreen() {
   const { profile, save, startChapter, finishToEnd, goToStart } = useGame();
-  const completed = save.completedChapters;
+  const completed = profile?.completedChapters ?? [];
+  const collection = profile?.collection ?? [];
   const minutesToday = minutesUsedToday(save, Date.now());
   const restSuggested = minutesToday >= save.settings.dailyLimitMin;
 
@@ -114,10 +115,10 @@ export function MapScreen() {
       <section className="collection" aria-label="Koleksi kartu">
         <h2 className="section-title">Koleksi kartu</h2>
         <div className="collection__row">
-          {save.collection.length === 0 ? (
+          {collection.length === 0 ? (
             <p className="collection__empty">Selesaikan 1 bab untuk dapat kartu pertamamu.</p>
           ) : (
-            save.collection.map((cardId) => (
+            collection.map((cardId) => (
               <div key={cardId} className="collection__card">
                 <span aria-hidden="true">{CARD_EMOJI[cardId] ?? '🦊'}</span>
                 <span>{CARD_NAMES[cardId] ?? cardId}</span>
