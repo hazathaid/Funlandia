@@ -68,7 +68,7 @@ interface GameContextValue {
   tapped: number[];
   rewardCard: RewardCard | null;
   audioOn: boolean;
-  createProfile: (input: { name: string; avatarId: string; ageGroup: Profile['ageGroup'] }) => void;
+  createProfile: (input: { name: string; avatarId: string; age: Profile['age'] }) => void;
   selectProfile: (profileId: string) => void;
   selectDifficulty: (difficulty: Difficulty) => void;
   startChapter: (chapterId: string) => void;
@@ -229,7 +229,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   );
 
   const createProfile = useCallback(
-    (input: { name: string; avatarId: string; ageGroup: Profile['ageGroup'] }) => {
+    (input: { name: string; avatarId: string; age: Profile['age'] }) => {
       const now = Date.now();
       const next = addProfileToSave(save, { ...input, now });
       const created = next.profiles[next.profiles.length - 1];

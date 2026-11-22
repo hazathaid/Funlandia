@@ -10,7 +10,7 @@ export interface Profile {
   id: string;
   name: string;
   avatarId: string;
-  ageGroup: '5-6' | '7-8';
+  age: '3' | '6' | '10';
   createdAt: number;
   difficulty?: 0 | 1 | 2;
   completedChapters?: string[];
@@ -107,8 +107,8 @@ function asBoolean(value: unknown, fallback: boolean): boolean {
   return typeof value === 'boolean' ? value : fallback;
 }
 
-function asAgeGroup(value: unknown): Profile['ageGroup'] {
-  return value === '7-8' ? '7-8' : '5-6';
+function asAge(value: unknown): Profile['age'] {
+  return value === '10' ? '10' : value === '6' ? '6' : '3';
 }
 
 function normalizeProfile(value: unknown): Profile | null {
@@ -120,7 +120,7 @@ function normalizeProfile(value: unknown): Profile | null {
     id,
     name,
     avatarId: asString(value.avatarId, 'rubah'),
-    ageGroup: asAgeGroup(value.ageGroup),
+    age: asAge(value.age),
     createdAt: asNumber(value.createdAt, Date.now()),
     difficulty: value.difficulty === 1 ? 1 : value.difficulty === 2 ? 2 : 0,
     completedChapters: asArray(value.completedChapters).filter(
@@ -262,16 +262,17 @@ export function createId(prefix: string): string {
 
 export function addProfile(
   save: SaveFile,
-  input: { name: string; avatarId: string; ageGroup: Profile['ageGroup']; now: number },
+  input: { name: string; avatarId: string; age: Profile['age']; now: number },
 ): SaveFile {
   const name = input.name.trim().slice(0, 16) || 'Anak';
+  const difficulty = input.age === '3' ? 0 : input.age === '6' ? 1 : 2;
   const profile: Profile = {
     id: createId('profile'),
     name,
     avatarId: input.avatarId || AVATARS[0],
-    ageGroup: input.ageGroup,
+    age: input.age,
     createdAt: input.now,
-    difficulty: 0,
+    difficulty,
     completedChapters: [],
     collection: [],
   };

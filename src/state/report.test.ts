@@ -7,8 +7,8 @@ const NOW = new Date('2026-11-21T12:00:00').getTime();
 function makeSave(): SaveFile {
   const save = createSaveFile('0.1.0');
   save.profiles = [
-    { id: 'p1', name: 'Aira', avatarId: 'rubah', ageGroup: '5-6', createdAt: 0 },
-    { id: 'p2', name: 'Bima', avatarId: 'panda', ageGroup: '7-8', createdAt: 0 },
+    { id: 'p1', name: 'Aira', avatarId: 'rubah', age: '3', createdAt: 0 },
+    { id: 'p2', name: 'Bima', avatarId: 'panda', age: '10', createdAt: 0 },
   ];
   save.skillProgress = {
     p1: [

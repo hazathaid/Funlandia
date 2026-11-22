@@ -14,7 +14,7 @@ function makeSave() {
       id: 'p1',
       name: 'Aira',
       avatarId: 'rubah',
-      ageGroup: '5-6',
+      age: '3',
       createdAt: 1000,
       difficulty: 1,
       completedChapters: ['pulau-buah-bab-1'],

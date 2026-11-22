@@ -17,6 +17,8 @@ export interface Chapter {
   /** Level yang terlihat oleh anak; makin tinggi, soal minimumnya makin menantang. */
   level: number;
   difficultyFloor: Difficulty;
+  /** Cerita singkat dari Kisah Rasulullah terkait materi bab. */
+  story?: string;
   /** Id bab yang harus selesai lebih dulu. Bab pertama tidak punya syarat. */
   requires?: string;
 }
@@ -48,6 +50,7 @@ export const ISLAND: Island = {
       cardName: 'Kiko si Rubah',
       level: 1,
       difficultyFloor: 0,
+      story: 'Ketika Nabi Muhammad SAW menghitung hari di langit, Ia mengajarkan kita menghayati setiap nikmat Allah dengan terima kasih.',
     }),
     makeChapter({
       id: 'pulau-buah-bab-2',
@@ -61,6 +64,7 @@ export const ISLAND: Island = {
       level: 2,
       difficultyFloor: 0,
       requires: CHAPTER_HITUNG_BUAH_ID,
+      story: 'Salah satu saat, Nabi Muhammad SAW membagi 7 buah kurma kepada cada sahabat. Setiap orang mendapat yang sama. Begitupun dengan memberi kepada anak-anak, kita harus dapat membagi dengan adil dan sepantasnya.',
     }),
     makeChapter({
       id: 'pulau-buah-bab-3',
@@ -74,6 +78,7 @@ export const ISLAND: Island = {
       level: 3,
       difficultyFloor: 1,
       requires: 'pulau-buah-bab-2',
+      story: 'Ketika seseorang memberikan sedekah, barangnya sedikit berkurang tapi pahalanya bertambah banyak. Seperti firasat Nabi yang selalu mengajarkan kita memberi dengan hati yang sukma.',
     }),
     makeChapter({
       id: 'pulau-buah-bab-4',
@@ -87,6 +92,7 @@ export const ISLAND: Island = {
       level: 4,
       difficultyFloor: 1,
       requires: 'pulau-buah-bab-3',
+      story: "Nabi Muhammad SAW pernah membandingkan orang yang membaca Al-Qur'an dengan buah yang segar. Ia mengajarkan bahwa yang terberat di panggalan adalah amal saleh dan ketakwaan kepada Allah.",
     }),
     makeChapter({
       id: 'pulau-buah-bab-5',
@@ -100,6 +106,7 @@ export const ISLAND: Island = {
       level: 5,
       difficultyFloor: 2,
       requires: 'pulau-buah-bab-4',
+      story: 'Nabi Muhammad SAW mengajarkan bahwa amal saleh seperti membagi makanan bermanfaat, setiap kali kita memberikan, pahalanya dikalikali oleh Allah yang Maha Penghasil.',
     }),
     makeChapter({
       id: 'pulau-buah-bab-6',
@@ -113,6 +120,7 @@ export const ISLAND: Island = {
       level: 6,
       difficultyFloor: 2,
       requires: 'pulau-buah-bab-5',
+      story: 'Hadis Shahih: "Nabi Muhammad SAW membagi 7 buah kurma kepada setiap sahabat." Ia mengajarkan kita membagi dengan adil, sehingga setiap orang mendapat bagian yang sama dan merasa bahagia.',
     }),
   ],
 };

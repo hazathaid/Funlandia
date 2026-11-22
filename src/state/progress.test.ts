@@ -101,7 +101,7 @@ describe('menyimpan hasil sesi', () => {
         id: 'p1',
         name: 'Aira',
         avatarId: 'rubah',
-        ageGroup: '5-6',
+        age: '3',
         createdAt: 1000,
         difficulty: 1,
         completedChapters: ['pulau-buah-bab-1'],
@@ -111,7 +111,7 @@ describe('menyimpan hasil sesi', () => {
         id: 'p2',
         name: 'Bima',
         avatarId: 'panda',
-        ageGroup: '5-6',
+        age: '3',
         createdAt: 2000,
         difficulty: 0,
         completedChapters: [],
@@ -129,7 +129,7 @@ describe('menyimpan hasil sesi', () => {
     const migrated = migrate(
       {
         schemaVersion: 1,
-        profiles: [{ id: 'p1', name: 'Aira', avatarId: 'rubah', ageGroup: '5-6' }],
+        profiles: [{ id: 'p1', name: 'Aira', avatarId: 'rubah', age: '3' }],
         completedChapters: ['pulau-buah-bab-1'],
         collection: ['kiko'],
         sessions: [

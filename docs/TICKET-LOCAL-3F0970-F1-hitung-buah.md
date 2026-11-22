@@ -178,9 +178,10 @@ Catatan: kalau `npm install` tidak bisa (offline), tulis di tiket bahwa verifika
 | Tanggal | Perintah / langkah | Hasil | Catatan |
 |---|---|---|---|
 | 2026-11-21 | `npm install` | lulus | Dependensi terpasang; `npm audit` melaporkan 9 advisories (6 moderate, 1 high, 2 critical), tidak ada perubahan runtime F1 |
-| 2026-11-21 | `npm test` | lulus | 3 file test, 12 test lulus |
+| 2026-11-21 | `npm test` | lulus | 8 file test, 42 test lulus |
 | 2026-11-21 | `npm run build` | lulus | `tsc --noEmit` + Vite build lulus |
 | 2026-11-21 | QA browser §6 | lulus | Profil/peta, salah lalu benar, 10 soal, hadiah/penutup, refresh tengah bab, refresh selesai, mute, dan koleksi terverifikasi |
+| 2026-11-21 | Koreksi alur level + profil baru | lulus | Setelah buat/pilih profil, layar Easy/Medium/Hard tampil sebelum peta. Profil baru mulai 0 bab dan koleksi kosong |
 
 ## 8. Guardrails (JANGAN dilanggar model yang melanjutkan)
 

@@ -23,7 +23,7 @@ export function StartScreen() {
   const [showParentGate, setShowParentGate] = useState(false);
   const [name, setName] = useState('');
   const [avatarId, setAvatarId] = useState<string>(AVATARS[0]);
-  const [ageGroup, setAgeGroup] = useState<Profile['ageGroup']>('5-6');
+  const [age, setAge] = useState<Profile['age']>('3');
 
   const submitting = name.trim().length > 0;
 
@@ -72,7 +72,7 @@ export function StartScreen() {
           onSubmit={(event) => {
             event.preventDefault();
             if (!submitting) return;
-            createProfile({ name: name.trim(), avatarId, ageGroup });
+            createProfile({ name: name.trim(), avatarId, age });
             setName('');
             setShowForm(false);
           }}
@@ -108,15 +108,15 @@ export function StartScreen() {
           </fieldset>
 
           <div className="age-group" role="group" aria-label="Umur anak">
-            {(['5-6', '7-8'] as const).map((group) => (
+            {(['3', '6', '10'] as const).map((ageValue) => (
               <button
-                key={group}
+                key={ageValue}
                 type="button"
-                className={`age-choice ${ageGroup === group ? 'age-choice--active' : ''}`}
-                aria-pressed={ageGroup === group}
-                onClick={() => setAgeGroup(group)}
+                className={`age-choice ${age === ageValue ? 'age-choice--active' : ''}`}
+                aria-pressed={age === ageValue}
+                onClick={() => setAge(ageValue)}
               >
-                {group === '5-6' ? '5–6 tahun' : '7–8 tahun'}
+                {ageValue === '3' ? '3 tahun' : ageValue === '6' ? '6 tahun' : '10 tahun'}
               </button>
             ))}
           </div>
