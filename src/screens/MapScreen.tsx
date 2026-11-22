@@ -14,9 +14,43 @@ const MODE_ICON: Record<ChapterMode, string> = {
   division: '➗',
 };
 
+// Hikmah per chapter untuk koleksi kartu
+const wisdomStories: Record<number, string[]> = {
+  1: [
+    'Ketika Nabi Muhammad SAW menghitung hari di langit, Ia mengajarkan kita menghayati setiap nikmat Allah dengan terima kasih.',
+    'Setiap nikmat yang Allah berikan, hendaklah dihindari dari ketidaktawaangan dan dipertahankan dengan syukur.',
+    'Kau sungguh diberikan rizki yang tidak terhitung jumlahnya, maka jadilah orang yang syukur.',
+  ],
+  2: [
+    'Salah satu saat, Nabi Muhammad SAW membagi 7 buah kurma kepada cada sahabat. Setiap orang mendapat yang sama.',
+    'Kebaikan yang dikabulkan Allah berganda-banding, maka berikanlah kebaikan kepada orang lain.',
+    'Berikanlah sesama makhluk dengan adil, sesungguhnya Allah mencintai orang-orang yang adil.',
+  ],
+  3: [
+    'Ketika seseorang memberikan sedekah, barangnya sedikit berkurang tapi pahalanya bertambah banyak.',
+    'Siapa yang memberikan sedekah dengan nailahnya, maka Allah akan menggandakan rizkinya.',
+    'Kurangilah barang duniawi demi memperoleh keberkahan yang abadi di sisi Allah.',
+  ],
+  4: [
+    "Nabi Muhammad SAW pernah membandingkan orang yang membaca Al-Qur'an dengan buah yang segar.",
+    'Yang terberat di panggunpalan amal saleh, maka hendaklah kita selalu mengerjakan kebaikan.',
+    'Beda-beda umat, namun satu dalam ketakwaan, ajarlah baik kepada sesama makhluk.',
+  ],
+  5: [
+    'Nabi Muhammad SAW mengajarkan bahwa amal saleh seperti membagi makanan bermanfaat.',
+    'Setiap kali kamu berbuat kebaikan, pahalanya dikali lipat-lipat oleh Allah yang Maha Penghasil.',
+    'Siapa yang berbuat saleh, bagi laki-laki atau perempuan, dan beriman, maka pasti Kami akan hidupkan nyawanya dengan kehidupan yang baik.',
+  ],
+  6: [
+    'Hadis Shahih: "Nabi Muhammad SAW membagi 7 buah kurma kepada setiap sahabat."',
+    'Membagi dengan adil sehingga setiap orang merasa bahagia dan terima kasih.',
+    'Sesungguhnya Allah memerintahkan kita berbuat adil, bahkan (hukum) hingga kepada orang yang musuhmu.',
+  ],
+};
+
 /**
  * Peta Pulau: bab terbuka bertahap (menunjukkan ada kelanjutan,
- * tanpa tombol "main terus" yang menggoda).
+ * tanpa tombol "main terus" yang menggodi).
  */
 export function MapScreen() {
   const { profile, save, startChapter, finishToEnd, goToStart } = useGame();
@@ -118,12 +152,29 @@ export function MapScreen() {
           {collection.length === 0 ? (
             <p className="collection__empty">Selesaikan 1 bab untuk dapat kartu pertamamu.</p>
           ) : (
-            collection.map((cardId) => (
-              <div key={cardId} className="collection__card">
-                <span aria-hidden="true">{CARD_EMOJI[cardId] ?? '🦊'}</span>
-                <span>{CARD_NAMES[cardId] ?? cardId}</span>
-              </div>
-            ))
+            collection.map((cardId, index) => {
+              const cardIndex = index % 6 + 1;
+              const storyPool = wisdomStories[cardIndex] || [];
+              const randomStory =
+                storyPool.length > 0
+                  ? storyPool[Math.floor(Math.random() * storyPool.length)]
+                  : '';
+
+              return (
+                <div
+                  key={cardId}
+                  className="collection__card"
+                  onClick={() => {
+                    if (randomStory) {
+                      alert(randomStory);
+                    }
+                  }}
+                >
+                  <span aria-hidden="true">{CARD_EMOJI[cardId] ?? '🦊'}</span>
+                  <span>{CARD_NAMES[cardId] ?? cardId}</span>
+                </div>
+              );
+            })
           )}
         </div>
       </section>
